@@ -6,6 +6,6 @@
 з розрахунком орієнтовної вартості виконання.
 
 ## Запуск
-javac TaskManager.java
+javac Task.java Main.java
 
-java TaskManager
+java Main
