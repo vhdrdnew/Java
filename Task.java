@@ -1,5 +1,7 @@
 import java.util.Objects;
-public class Task {
+
+public class Task implements Comparable<Task>, Exportable {
+
     private String title;
     private String priority;
     private double estimatedHours;
@@ -23,6 +25,7 @@ public class Task {
         if (deadlineDays < 0) {
             throw new InvalidEstimateException("deadlineDays", deadlineDays, "не може бути від'ємним.");
         }
+
         this.title = title;
         this.priority = priority;
         this.estimatedHours = estimatedHours;
@@ -51,19 +54,23 @@ public class Task {
     }
 
     @Override
+    public int compareTo(Task other) {
+        return Double.compare(estimatedHours, other.estimatedHours);
+    }
+
+    @Override
+    public String toCsvLine() {
+        return String.join(";", title, priority, String.valueOf(estimatedHours),
+                String.valueOf(deadlineDays), String.valueOf(isCompleted));
+    }
+
+    @Override
     public String toString() {
         return String.format(
                 "Завдання: %-20s | Пріоритет: %-6s | Оцінка часу: %.1f год | Дедлайн: %d дн. | Виконано: %s",
                 title, priority, estimatedHours, deadlineDays, isCompleted ? "так" : "ні"
         );
     }
-
-    //     public String toString() {
-    //     return String.format(
-    //             "Завдання: %-20s | Пріоритет: %-6s | Оцінка часу: %.1f год | Дедлайн: %d дн. | Виконано: %s",
-    //             title, priority, estimatedHours, deadlineDays, isCompleted ? "так" : "ні"
-    //     );
-    // }
 
     @Override
     public boolean equals(Object obj) {
