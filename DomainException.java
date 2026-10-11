@@ -1,4 +1,5 @@
 public class DomainException extends Exception {
+
     private final Object invalidValue;
 
     public DomainException(String message, Object invalidValue) {

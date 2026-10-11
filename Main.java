@@ -126,7 +126,7 @@ public class Main {
         while (true) {
             try {
                 return readTask(scanner);
-            } catch (InvalidPriorityException e) {
+            } catch (InvalidPriorityException || e) {
                 System.out.println("Помилка пріоритету. Ви ввели: '" + e.getInvalidValue()
                         + "'. Спробуйте High, Medium або Low.\n");
             } catch (InvalidEstimateException e) {
@@ -146,7 +146,7 @@ public class Main {
 
     private static void tryCreate(String title, String priority, double hours, int deadline) {
         try {
-            new Task(title, priority, hours, deadline, false);
+            new Task(title, priority, hours, deadline);
             System.out.println("Створено без помилок.");
         } catch (DomainException e) {
             System.out.println("catch(DomainException) спіймав " + e.getClass().getSimpleName()
