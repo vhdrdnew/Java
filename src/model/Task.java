@@ -1,11 +1,15 @@
+package model;
+import exceptions.DomainException;
+import exceptions.InvalidEstimateException;
+import exceptions.InvalidPriorityException;
 import java.util.Objects;
 
 public class Task implements Comparable<Task>, Exportable {
 
-    private String title;
-    private String priority;
-    private double estimatedHours;
-    private int deadlineDays;
+    private final String title;
+    private final String priority;
+    private final double estimatedHours;
+    private final int deadlineDays;
     private boolean isCompleted;
 
     public Task(String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted)
@@ -13,6 +17,9 @@ public class Task implements Comparable<Task>, Exportable {
 
         if (title == null || title.isBlank()) {
             throw new DomainException("Назва завдання не може бути порожньою.", title);
+        }
+        if (title.contains(";")) {
+            throw new DomainException("Назва не може містити символ ';' (він розділяє поля у файлі).", title);
         }
         if (priority == null || !(priority.equalsIgnoreCase("High")
                 || priority.equalsIgnoreCase("Medium")
@@ -53,6 +60,10 @@ public class Task implements Comparable<Task>, Exportable {
         return isCompleted;
     }
 
+    public void markCompleted() {
+        this.isCompleted = true;
+    }
+
     @Override
     public int compareTo(Task other) {
         return Double.compare(estimatedHours, other.estimatedHours);
@@ -66,10 +77,8 @@ public class Task implements Comparable<Task>, Exportable {
 
     @Override
     public String toString() {
-        return String.format(
-                "Завдання: %-20s | Пріоритет: %-6s | Оцінка часу: %.1f год | Дедлайн: %d дн. | Виконано: %s",
-                title, priority, estimatedHours, deadlineDays, isCompleted ? "так" : "ні"
-        );
+        return String.format("[%s] %-22s | %-6s | %5.1f год | дедлайн: %2d дн.",
+                isCompleted ? "x" : " ", title, priority, estimatedHours, deadlineDays);
     }
 
     @Override
