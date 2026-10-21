@@ -1,3 +1,5 @@
+package exceptions;
+
 public class InvalidPriorityException extends DomainException {
 
     public InvalidPriorityException(String value) {

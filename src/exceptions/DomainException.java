@@ -1,3 +1,5 @@
+package exceptions;
+
 public class DomainException extends Exception {
 
     private final Object invalidValue;
