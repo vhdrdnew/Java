@@ -1,3 +1,5 @@
+package exceptions;
+
 public class InvalidEstimateException extends DomainException {
 
     private final String fieldName;
