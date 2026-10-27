@@ -55,12 +55,3 @@ java -cp out app.Main
 **Ситуація:** є «сторонній» клас `LegacyFileStore` зі старим API (`putRecord`, `fetchAllRecords`, `clearAll`, працює з сирими рядками). Наш код очікує інтерфейс `TaskStorage` (`save(List<Task>)`, `load()`).
 **Реалізація:** `LegacyStorageAdapter implements TaskStorage` перекладає виклики: `save` → `clearAll` + `putRecord(task.toCsvLine())`, `load` → `fetchAllRecords` + розбір рядків у `Task`.
 **Чому саме Adapter, а не переписування класу:** код сторонньої/застарілої бібліотеки ми не можемо або не повинні змінювати (інші проєкти залежать від нього). Адаптер лишає його незмінним, а нашу програму ізолює від його API. Якщо сховище заміниться (база даних), достатньо написати інший `TaskStorage`.
-
-## Git
-```bash
-git checkout -b lr5/task-manager-patterns
-git add .
-git commit -m "LR5: Factory, Observer, Adapter refactoring"
-git push -u origin lr5/task-manager-patterns
-# далі створити Pull Request у main
-```
