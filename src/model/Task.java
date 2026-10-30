@@ -4,22 +4,23 @@ import exceptions.InvalidEstimateException;
 import exceptions.InvalidPriorityException;
 import java.util.Objects;
 
-public class Task implements Comparable<Task>, Exportable {
+public abstract sealed class Task implements Comparable<Task>, Exportable permits WorkTask, PersonalTask {
 
     private final String title;
     private final String priority;
     private final double estimatedHours;
     private final int deadlineDays;
     private boolean isCompleted;
+    private final CategoryTag tag;
 
-    public Task(String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted)
+    protected Task(String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag)
             throws DomainException {
 
         if (title == null || title.isBlank()) {
             throw new DomainException("Назва завдання не може бути порожньою.", title);
         }
         if (title.contains(";")) {
-            throw new DomainException("Назва не може містити символ ';' (він розділяє поля у файлі).", title);
+            throw new DomainException("Назва не може містити символ ';'.", title);
         }
         if (priority == null || !(priority.equalsIgnoreCase("High")
                 || priority.equalsIgnoreCase("Medium")
@@ -66,40 +67,39 @@ public class Task implements Comparable<Task>, Exportable {
 
     @Override
     public int compareTo(Task other) {
-        return Double.compare(estimatedHours, other.estimatedHours);
+        return Double.compare(this.estimatedHours, other.estimatedHours);
     }
 
     @Override
     public String toCsvLine() {
-        return String.join(";", title, priority, String.valueOf(estimatedHours),
-                String.valueOf(deadlineDays), String.valueOf(isCompleted));
+        String tagStr = (tag != null) ? tag.getTagName() : "NONE";
+        return String.join(";", getTaskType(), title, priority,
+                String.valueOf(estimatedHours), String.valueOf(deadlineDays),
+                String.valueOf(isCompleted), tagStr);
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %-22s | %-6s | %5.1f год | дедлайн: %2d дн.",
-                isCompleted ? "x" : " ", title, priority, estimatedHours, deadlineDays);
+        String tagInfo = (tag != null) ? " [" + tag.getTagName() + "]" : "";
+        return String.format("[%s] [%-12s] %-20s%s | %-6s | %5.1f год | дедлайн: %2d дн.",
+                isCompleted ? "x" : " ", getTaskType(), title, tagInfo, priority, estimatedHours, deadlineDays);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false; 
         Task other = (Task) obj;
-
-        return Double.compare(estimatedHours, other.estimatedHours) == 0
-                && deadlineDays == other.deadlineDays
-                && isCompleted == other.isCompleted
-                && title.equals(other.title)
-                && priority.equals(other.priority);
+        return Double.compare(other.estimatedHours, estimatedHours) == 0 &&
+                deadlineDays == other.deadlineDays &&
+                isCompleted == other.isCompleted &&
+                Objects.equals(title, other.title) &&
+                Objects.equals(priority, other.priority) &&
+                Objects.equals(tag, other.tag);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, priority, estimatedHours, deadlineDays, isCompleted);
+        return Objects.hash(title, priority, estimatedHours, deadlineDays, isCompleted, tag);
     }
 }
