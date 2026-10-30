@@ -1,7 +1,9 @@
+package strategy;
+import model.Task;
+
 public interface UrgencyCalculator {
 
     double calculate(Task task);
-
     String getName();
 
     default String describe(Task task) {

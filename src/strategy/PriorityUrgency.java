@@ -1,3 +1,6 @@
+package strategy;
+import model.Task;
+
 public class PriorityUrgency extends AbstractUrgencyCalculator {
 
     public PriorityUrgency() {

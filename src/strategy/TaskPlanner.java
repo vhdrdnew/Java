@@ -1,4 +1,7 @@
-import java.util.Arrays;
+package strategy;
+import model.Task;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TaskPlanner {
 
@@ -19,21 +22,21 @@ public class TaskPlanner {
         return strategy;
     }
 
-    public Task[] rank(Task[] tasks) {
-        Task[] copy = Arrays.copyOf(tasks, tasks.length);
-        Arrays.sort(copy, (a, b) -> Double.compare(strategy.calculate(b), strategy.calculate(a)));
+    public List<Task> rank(List<Task> tasks) {
+        List<Task> copy = new ArrayList<>(tasks);
+        copy.sort((a, b) -> Double.compare(strategy.calculate(b), strategy.calculate(a)));
         return copy;
     }
 
-    public void printRanking(Task[] tasks) {
-        if (tasks.length == 0) {
+    public void printRanking(List<Task> tasks) {
+        if (tasks.isEmpty()) {
             System.out.println("Немає завдань для ранжування.");
             return;
         }
         System.out.println("Стратегія: " + strategy.getName());
-        Task[] ranked = rank(tasks);
-        for (int i = 0; i < ranked.length; i++) {
-            System.out.println((i + 1) + ". " + strategy.describe(ranked[i]));
+        List<Task> ranked = rank(tasks);
+        for (int i = 0; i < ranked.size(); i++) {
+            System.out.println((i + 1) + ". " + strategy.describe(ranked.get(i)));
         }
     }
 }

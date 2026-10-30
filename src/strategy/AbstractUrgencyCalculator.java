@@ -1,3 +1,6 @@
+package strategy;
+import model.Task;
+
 public abstract class AbstractUrgencyCalculator implements UrgencyCalculator {
 
     private final String name;
