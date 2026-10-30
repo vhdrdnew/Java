@@ -1,5 +1,4 @@
 package model;
-
 import exceptions.DomainException;
 import exceptions.InvalidEstimateException;
 import exceptions.InvalidPriorityException;
@@ -40,24 +39,30 @@ public abstract sealed class Task implements Comparable<Task>, Exportable permit
         this.estimatedHours = estimatedHours;
         this.deadlineDays = deadlineDays;
         this.isCompleted = isCompleted;
-        this.tag = tag;
     }
 
-    public String getTitle() { return title; }
-    public String getPriority() { return priority; }
-    public double getEstimatedHours() { return estimatedHours; }
-    public int getDeadlineDays() { return deadlineDays; }
-    public boolean isCompleted() { return isCompleted; }
-    public CategoryTag getTag() { return tag; }
+    public String getTitle() {
+        return title;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public double getEstimatedHours() {
+        return estimatedHours;
+    }
+
+    public int getDeadlineDays() {
+        return deadlineDays;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
 
     public void markCompleted() {
         this.isCompleted = true;
-    }
-
-    public abstract String getTaskType(); // абстрактний метлд
-
-    public final double getHoursPerDay() { //...іюажівадіщвлаів
-        return estimatedHours / (deadlineDays == 0 ? 1 : deadlineDays);
     }
 
     @Override
