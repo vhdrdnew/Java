@@ -1,13 +1,14 @@
 package model;
+
 import exceptions.DomainException;
 
 public non-sealed class PersonalTask extends Task {
 
     private final String location;
 
-    public PersonalTask(String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag, String location)
+    public PersonalTask(long id, String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag, String location)
             throws DomainException {
-        super(title, priority, estimatedHours, deadlineDays, isCompleted, tag);
+        super(id, title, priority, estimatedHours, deadlineDays, isCompleted, tag);
         this.location = (location == null || location.isBlank()) ? "Home" : location;
     }
 

@@ -6,9 +6,9 @@ public final class TechWorkTask extends WorkTask {
 
     private final String techStack;
 
-    public TechWorkTask(String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag, String projectName, String techStack)
+    public TechWorkTask(long id, String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag, String projectName, String techStack)
             throws DomainException {
-        super(title, priority, estimatedHours, deadlineDays, isCompleted, tag, projectName);
+        super(id, title, priority, estimatedHours, deadlineDays, isCompleted, tag, projectName);
         this.techStack = (techStack == null || techStack.isBlank()) ? "Java" : techStack;
     }
 
