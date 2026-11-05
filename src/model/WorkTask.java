@@ -7,15 +7,15 @@ public non-sealed class WorkTask extends Task {
 
     private final String projectName;
 
-    public WorkTask(String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag, String projectName)
+    public WorkTask(long id, String title, String priority, double estimatedHours, int deadlineDays, boolean isCompleted, CategoryTag tag, String projectName)
             throws DomainException {
-        super(title, priority, estimatedHours, deadlineDays, isCompleted, tag);
-        this.projectName = (projectName == null || projectName.isBlank()) ? "General" : projectName; // перевантаження конструкторів з делегуванням через this(...)
+        super(id, title, priority, estimatedHours, deadlineDays, isCompleted, tag);
+        this.projectName = (projectName == null || projectName.isBlank()) ? "General" : projectName;
     }
 
-    public WorkTask(String title, String priority, double estimatedHours, int deadlineDays, String projectName)
+    public WorkTask(long id, String title, String priority, double estimatedHours, int deadlineDays, String projectName)
             throws DomainException {
-        this(title, priority, estimatedHours, deadlineDays, false, new CategoryTag("Work"), projectName);
+        this(id, title, priority, estimatedHours, deadlineDays, false, new CategoryTag("Work"), projectName);
     }
 
     public String getProjectName() { return projectName; }
